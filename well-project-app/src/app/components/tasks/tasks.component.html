@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="header">
+    <h5>Company Name Here</h5>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Completed</th>
+        <th scope="col">#</th>
+        <th scope="col">Task</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <td>
+          <input type="checkbox" [(ngModel)]="task.completed" />
+        </td>
+        <td>{{task.taskOrder}}</td>
+        <td>
+          {{task.taskName}}
+        </td>
+        <td>{{task.completedDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

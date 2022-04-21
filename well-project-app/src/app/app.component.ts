@@ -4,7 +4,10 @@ import { UserService } from './services/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls:
+  [
+    './app.component.css'
+  ]
 })
 export class AppComponent implements OnInit {
   title = 'well-project-app';
@@ -13,9 +16,9 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   async ngOnInit() {
-    console.log('calling the test api');
-    await this.userService.testApiCall().subscribe((resp: any) => {
-      this.response = resp;
-    });
+    // console.log('calling the test api');
+    // await this.userService.testApiCall().subscribe((resp: any) => {
+    //   this.response = resp;
+    // });
   }
 }
