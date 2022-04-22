@@ -1,5 +1,12 @@
-.container {
-  margin-top: 1rem;
+.card {
+  margin-top: 3rem;
+  width: 80%;
+  margin: 3rem auto auto auto;
+  border: none;
+}
+
+h5 {
+  margin-bottom: 2rem;
 }
 
 .container .header {

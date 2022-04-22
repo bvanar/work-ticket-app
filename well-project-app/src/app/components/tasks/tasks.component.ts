@@ -22,4 +22,16 @@ export class TasksComponent implements OnInit {
     console.log('here are the tasks', this.tasks);
   }
 
+  onRowEditInit(task: Tasks) {
+
+  }
+
+  onRowEditCancel(task: Tasks, rowIndex: number) {
+
+  }
+
+  onRowEditSave(task: Tasks) {
+    
+  }
+
 }
