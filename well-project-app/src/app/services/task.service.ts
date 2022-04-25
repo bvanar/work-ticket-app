@@ -1,4 +1,8 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { BehaviorSubject, firstValueFrom } from "rxjs";
+import { environment } from "src/environments/environment";
+import { ApiResponseDto, ApiResponseDtoTyped } from "../dto/api-response.dto";
 import { Tasks } from "../models/tasks";
 
 @Injectable({
@@ -7,23 +11,13 @@ import { Tasks } from "../models/tasks";
 
 export class TaskService {
   tasks: Tasks[] = [];
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getTasks(companyId: number): Tasks[] {
-    for(let i = 1; i < 10; i++) {
-      for(let j = 1; j < 10; j++) {
-        this.tasks.push({
-          taskId: j,
-          companyId: i,
-          taskName: 'task-' + j,
-          taskOrder: j,
-          completed: true,
-          completedDate: '',
-          isDeleted: false
-        });
-      }
-    }
+  baseUrl = environment.apiUrl + 'task';
 
-    return this.tasks.filter(z => z.companyId == companyId);
+  async completeTask(task: Tasks, isComplete: boolean) : Promise<ApiResponseDtoTyped<Tasks>> {
+    var sub = this.http.patch<ApiResponseDto>(this.baseUrl + '/complete/' + task.taskId + '/' + isComplete, {});
+    return await firstValueFrom(sub);
   }
+
 }

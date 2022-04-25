@@ -13,12 +13,7 @@ export class AppComponent implements OnInit {
   title = 'well-project-app';
   response: any;
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 
-  async ngOnInit() {
-    // console.log('calling the test api');
-    // await this.userService.testApiCall().subscribe((resp: any) => {
-    //   this.response = resp;
-    // });
-  }
+  async ngOnInit() { }
 }

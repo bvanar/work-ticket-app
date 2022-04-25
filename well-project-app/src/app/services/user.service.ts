@@ -1,47 +1,59 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { publishReplay, refCount, share, take } from "rxjs";
+import { environment } from "src/environments/environment";
+import { ApiResponseDto, ApiResponseDtoTyped } from "../dto/api-response.dto";
+import { UserRequestDto } from "../dto/user-request.dto";
 import { User } from "../models/user";
+import { SessionStorageService } from "./session-storage.service";
 
 @Injectable({
     providedIn: "root"
 })
 
 export class UserService {
-    constructor(private http: HttpClient) {}
-    currentUser: User = new User();
+    constructor(private http: HttpClient,
+                private sessionStorageService: SessionStorageService,
+                private router: Router) {}
 
-    testUser: User = new User();
+    public userSSKey = 'current_user';
 
-    login(userName: string, password: string): boolean {
-      this.initUser();
-      console.log(password, this.testUser.password);
-      if (password == this.testUser.password) {
-        this.currentUser = this.testUser;
+    get isLoggedIn(): boolean {
+      if (this.currentUser?.userId) {
         return true;
       }
+      return false;
+    }
+
+    get currentUser(): User | null{
+      var userString = this.sessionStorageService.get('current_user');
+      if (userString) {
+        let user = <User>JSON.parse(userString!);
+        return user;
+      }
       else {
-        return false;
+        return null;
       }
     }
 
-    initUser() {
-      this.testUser.userId = 1;
-      this.testUser.userName = 'taylor';
-      this.testUser.password = 'test';
-      this.testUser.companyId = 1;
-      this.testUser.isAdmin = true;
-      this.testUser.isDeleted = false;
-      this.testUser.lastLogin = '4/20/2022';
-
-      this.currentUser = this.testUser;
+    set currentUser(user: User | null) {
+      this.sessionStorageService.remove(this.userSSKey);
+      this.sessionStorageService.set(this.userSSKey, JSON.stringify(user));
     }
 
-    testApiCall() {
-        let sub = this.http.get<any>('https://t1b9ekczia.execute-api.us-east-1.amazonaws.com/dev/users');
-        sub.subscribe((resp: any) => {
-            console.log(resp);
-        });
+    login(userName: string, password: string) {
+      let userRequest = new UserRequestDto();
+      userRequest.userName = userName;
+      userRequest.password = password;
 
-        return sub;
+      var sub = this.http.post<ApiResponseDtoTyped<User>>(environment.apiUrl + 'user/login', userRequest);
+      return sub;
+    }
+
+    logout() {
+      this.currentUser = new User();
+      this.sessionStorageService.remove(this.userSSKey);
+      this.router.navigate(['../'])
     }
 }

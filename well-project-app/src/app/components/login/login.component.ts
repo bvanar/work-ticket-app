@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -16,15 +17,22 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    if (this.userService.isLoggedIn) {
+      this.router.navigate(['tasks']);
+    }
   }
 
   login() {
-    let result = this.userService.login(this.userName, this.password);
-    if (result) {
-      this.router.navigate(['tasks']);
-    } else {
-      alert('Error Logging In');
-    }
+    this.userService.login(this.userName, this.password)
+        .pipe(take(1))
+        .subscribe(x => {
+          if (x.success) {
+            this.userService.currentUser = x.data;
+            this.router.navigate(['tasks']);
+          } else {
+            alert(x.message);
+          }
+        });
   }
 
 }

@@ -9,10 +9,28 @@ html {
   position: relative;
   min-height: 100%;
   font-family: 'Roboto', sans-serif;
+  background-color: #20262e;
 }
 
 body {
   margin: 0 0 100px;
+  background-color: #20262e !important;
     /* bottom = footer height */
     /* padding: 25px; */
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  border: none !important;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: #2a323d;
+  color: white;
+  border-color: #3f4b5b;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background: #2a323d;
+  color: white;
+  border-color: #3f4b5b !important;
 }

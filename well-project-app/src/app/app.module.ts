@@ -27,6 +27,7 @@ import {ButtonModule} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {InputTextModule} from 'primeng/inputtext';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {InputTextModule} from 'primeng/inputtext';
 		ButtonModule,
 		ToastModule,
     InputTextModule,
-    ProgressBarModule
+    ProgressBarModule,
+    CheckboxModule
   ],
   providers: [UserService, TaskService, CompanyService],
   bootstrap: [AppComponent]

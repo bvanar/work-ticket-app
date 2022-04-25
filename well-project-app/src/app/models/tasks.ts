@@ -1,6 +1,6 @@
 export class Tasks {
   taskId!: number;
-  companyId!: number;
+  jobId!: number;
   taskName!: string;
   taskOrder!: number;
   completed: boolean = false;
