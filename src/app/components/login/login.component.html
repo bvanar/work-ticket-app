@@ -1,17 +1,18 @@
 <div class="login-container">
+  <div class="card">
   <form>
     <div class="row mb-4">
       <h1>LOGO HERE</h1>
     </div>
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="email" id="username" class="form-control" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" />
+      <input pInputText type="email" id="username" class="form-control" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" />
       <label class="form-label" for="username">Username</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="password" [(ngModel)]="password" class="form-control" [ngModelOptions]="{standalone: true}" />
+      <input pInputText type="password" id="password" [(ngModel)]="password" class="form-control" [ngModelOptions]="{standalone: true}" />
       <label class="form-label" for="password" >Password</label>
     </div>
 
@@ -32,4 +33,5 @@
       </div>
     </div>
   </form>
+</div>
 </div>

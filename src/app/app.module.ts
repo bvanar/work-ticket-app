@@ -25,9 +25,14 @@ import {ContextMenuModule} from 'primeng/contextmenu';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {ProgressBarModule} from 'primeng/progressbar';
 import {InputTextModule} from 'primeng/inputtext';
 import {CheckboxModule} from 'primeng/checkbox';
+import { AdminComponent } from './components/admin/admin.component';
+import { CompanyAdminComponent } from './components/admin/company-admin/company-admin.component';
+import { JobAdminComponent } from './components/admin/job-admin/job-admin.component';
+import { UserAdminComponent } from './components/admin/user-admin/user-admin.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,11 @@ import {CheckboxModule} from 'primeng/checkbox';
     NavBarComponent,
     FooterComponent,
     ContentComponent,
-    TasksComponent
+    TasksComponent,
+    AdminComponent,
+    CompanyAdminComponent,
+    JobAdminComponent,
+    UserAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +65,8 @@ import {CheckboxModule} from 'primeng/checkbox';
 		ToastModule,
     InputTextModule,
     ProgressBarModule,
-    CheckboxModule
+    CheckboxModule,
+    BrowserAnimationsModule
   ],
   providers: [UserService, TaskService, CompanyService],
   bootstrap: [AppComponent]

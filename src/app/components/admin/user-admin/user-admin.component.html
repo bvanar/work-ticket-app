@@ -1,0 +1,59 @@
+<div class="card">
+  <p-table [value]="userList" dataKey="userId" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Is Admin</th>
+              <th>
+                <button pButton (click)="openDialog()" pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success" [pTooltip]="'New User'"></button>
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
+          <tr>
+              <td>{{user.userName}}</td>
+              <td>{{user.email}}</td>
+              <td>
+                <p-dropdown [options]="companies" [(ngModel)]="user.companyId" [disabled]="true" [style]="{'width':'100%'}"></p-dropdown>
+              </td>
+              <td>
+                <p-checkbox [(ngModel)]="user.isAdmin" [binary]="true" [disabled]="true"></p-checkbox>
+              </td>
+              <td>
+                <button pButton (click)="editUser(user)" pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-info" [pTooltip]="'Edit'"></button>
+                <button pButton (click)="resetPassword(user)" pRipple type="button" icon="pi pi-refresh" class="p-button-text p-button-warning" [pTooltip]="'Reset Password'"></button>
+                <button pButton (click)="deleteUser(user)" pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-danger" [pTooltip]="'Delete'"></button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+      <div class="field">
+          <label for="name">Username</label>
+          <input type="text" pInputText id="name" [(ngModel)]="user.userName" required autofocus />
+          <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
+      </div>
+      <div class="field">
+          <label for="description">Description</label>
+          <input id="description" type="text" pInputText [(ngModel)]="user.email" required />
+      </div>
+      <div class="field">
+          <label for="inventoryStatus">Company</label>
+          <p-dropdown [options]="companies" [(ngModel)]="user.companyId" [appendTo]="'body'" [style]="{'width':'100%'}"></p-dropdown>
+      </div>
+
+      <div class="field">
+          <p-checkbox [(ngModel)]="user.isAdmin" id="isadmin" label="Is Admin" [binary]="true"></p-checkbox>
+      </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveUser(user)"></button>
+  </ng-template>
+</p-dialog>

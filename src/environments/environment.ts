@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://ycbpl3mfuf.execute-api.us-east-1.amazonaws.com/Prod/api/'
-  // apiUrl: 'http://localhost:51177/api/'
+  // apiUrl: 'https://ycbpl3mfuf.execute-api.us-east-1.amazonaws.com/Prod/api/'
+  apiUrl: 'http://localhost:51177/api/'
 };
 
 /*

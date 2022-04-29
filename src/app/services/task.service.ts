@@ -20,4 +20,19 @@ export class TaskService {
     return await firstValueFrom(sub);
   }
 
+  async createTask(task: Tasks) {
+    var sub = this.http.post<ApiResponseDtoTyped<Tasks>>(this.baseUrl, task);
+    return await firstValueFrom(sub);
+  }
+
+  async deleteTask(task: Tasks) {
+    var sub = this.http.delete<ApiResponseDto>(this.baseUrl + '/' + task.taskId);
+    return await firstValueFrom(sub);
+  }
+
+  async updateTask(task: Tasks) {
+    var sub = this.http.patch<ApiResponseDto>(this.baseUrl, task);
+    return await firstValueFrom(sub);
+  }
+
 }

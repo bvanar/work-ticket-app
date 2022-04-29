@@ -3,7 +3,7 @@
   width: 80%;
   margin: 3rem auto auto auto;
   border: none;
-  background-color: red;
+  background-color: transparent;
 }
 
 h5 {
@@ -14,18 +14,8 @@ h5 {
   background-color: lightgray;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background: #2a323d;
-  color: white;
-  border-color: #3f4b5b;
+
+.company-selector {
+  margin-bottom: 2rem;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
-  background: #2a323d;
-  color: white;
-  border-color: #3f4b5b !important;
-}
-
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-  border-color: #3f4b5b;
-}

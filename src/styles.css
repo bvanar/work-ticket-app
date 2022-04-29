@@ -19,18 +19,67 @@ body {
     /* padding: 25px; */
 }
 
-::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+.p-datatable .p-datatable-tbody > tr > td {
   border: none !important;
 }
 
-::ng-deep .p-datatable .p-datatable-thead > tr > th {
+.p-datatable .p-datatable-thead > tr > th {
   background: #2a323d;
   color: white;
   border-color: #3f4b5b;
 }
 
-::ng-deep .p-datatable .p-datatable-tbody > tr {
+.p-datatable .p-datatable-tbody > tr {
   background: #2a323d;
   color: white;
   border-color: #3f4b5b !important;
+}
+
+.p-inputtext {
+  border: 1px solid #3f4b5b;
+  background: #20262e;
+  color: white;
+}
+
+.p-dialog .p-dialog-content {
+  background: #2a323d;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.p-dialog .p-dialog-header {
+  border-bottom: 1px solid #3f4b5b;
+  background: #2a323d;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.p-dropdown .p-dropdown-trigger {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.p-dialog .p-dialog-footer {
+  border-top: 1px solid #3f4b5b;
+  background: #2a323d;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.p-dropdown {
+  background: #20262e;
+  border: 1px solid #3f4b5b;
+  transition: background-color 0.15s
+}
+
+.p-dropdown-panel {
+  background: #2a323d !important;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  border: 0 none;
+  color: rgba(255, 255, 255, 0.87);
+  background: transparent;
+}
+
+.p-checkbox .p-checkbox-box {
+  background: transparent;
 }

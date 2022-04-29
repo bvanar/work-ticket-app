@@ -56,4 +56,23 @@ export class UserService {
       this.sessionStorageService.remove(this.userSSKey);
       this.router.navigate(['../'])
     }
+
+    getAllUsers() {
+      var sub = this.http.get<ApiResponseDtoTyped<User[]>>(environment.apiUrl + 'user');
+      return sub;
+    }
+
+    updateUser(user: User) {
+      var sub = this.http.patch<ApiResponseDtoTyped<User>>(environment.apiUrl + 'user', user);
+      return sub;
+    }
+
+    newUser(user: User) {
+      var sub = this.http.post<ApiResponseDtoTyped<User>>(environment.apiUrl + 'user', user);
+      return sub;
+    }
+
+    resetPassword(user: User) {
+      // var sub = this.http.patch<ApiResponseDto>(environment.apiUrl + 'user/')
+    }
 }

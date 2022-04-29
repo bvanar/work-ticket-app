@@ -1,5 +1,5 @@
 export class Tasks {
-  taskId!: number;
+  taskId: number = 0;
   jobId!: number;
   taskName!: string;
   taskOrder!: number;

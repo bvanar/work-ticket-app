@@ -18,8 +18,14 @@ export class JobService {
   constructor(private userService: UserService,
               private http: HttpClient) {}
 
-  getUserJobs() {
-    var sub = this.http.get<ApiResponseDtoTyped<Job[]>>(this.baseUrl + '/user-jobs/' + this.userService.currentUser?.userId);
+  getUserJobs(isAdmin: boolean, companyId: number) {
+    var sub;
+    if (isAdmin && companyId !== 0) {
+      sub = this.http.get<ApiResponseDtoTyped<Job[]>>(this.baseUrl + '/' + companyId);
+    }  else {
+      sub = this.http.get<ApiResponseDtoTyped<Job[]>>(this.baseUrl + '/user-jobs/' + this.userService.currentUser?.userId);
+    }
+
     sub.subscribe(resp => {
       if (resp.success) {
         this.GetUserJobs$.next(resp.data);
@@ -28,5 +34,20 @@ export class JobService {
         alert(resp.message);
       }
     });
+  }
+
+  async createJob(job: Job) {
+    var sub = this.http.post<ApiResponseDtoTyped<Job>>(this.baseUrl, job);
+    return sub;
+  }
+
+  async deleteJob(job: Job) {
+    var sub = this.http.delete<ApiResponseDto>(this.baseUrl + '/' + job.jobId);
+    return sub;
+  }
+
+  async editJob(job: Job) {
+    var sub = this.http.patch<ApiResponseDtoTyped<Job>>(this.baseUrl, job);
+    return sub;
   }
 }
