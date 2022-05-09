@@ -1,7 +1,15 @@
 .card {
-  background: #2a323d;
+  margin-top: 3rem;
+  width: 80%;
+  margin: 3rem auto auto auto;
+  border: none;
+  background-color: transparent;
 }
 
 .field {
   margin-top: 1rem;
+}
+
+.company-selector {
+  margin-bottom: 2rem;
 }

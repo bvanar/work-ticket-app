@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ApiResponseDto, ApiResponseDtoTyped } from "../dto/api-response.dto";
+import { UserJobRequestDto } from "../dto/user-job-request.dto";
 import { Job } from "../models/job";
 import { UserService } from "./user.service";
 
@@ -18,13 +19,9 @@ export class JobService {
   constructor(private userService: UserService,
               private http: HttpClient) {}
 
-  getUserJobs(isAdmin: boolean, companyId: number) {
+  getUserJobs(companyId: number) {
     var sub;
-    if (isAdmin && companyId !== 0) {
-      sub = this.http.get<ApiResponseDtoTyped<Job[]>>(this.baseUrl + '/' + companyId);
-    }  else {
-      sub = this.http.get<ApiResponseDtoTyped<Job[]>>(this.baseUrl + '/user-jobs/' + this.userService.currentUser?.userId);
-    }
+    sub = this.http.get<ApiResponseDtoTyped<Job[]>>(this.baseUrl + '/user/' + this.userService.currentUser?.userId + '/company/' + companyId);
 
     sub.subscribe(resp => {
       if (resp.success) {
@@ -37,6 +34,8 @@ export class JobService {
   }
 
   async createJob(job: Job) {
+    job.ownerId = this.userService.currentUser?.userId!;
+    console.log(job);
     var sub = this.http.post<ApiResponseDtoTyped<Job>>(this.baseUrl, job);
     return sub;
   }
@@ -48,6 +47,11 @@ export class JobService {
 
   async editJob(job: Job) {
     var sub = this.http.patch<ApiResponseDtoTyped<Job>>(this.baseUrl, job);
+    return sub;
+  }
+
+  async assignUser(request: UserJobRequestDto[]) {
+    var sub = this.http.post<ApiResponseDto>(this.baseUrl + '/assign-user', request);
     return sub;
   }
 }

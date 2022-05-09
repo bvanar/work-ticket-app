@@ -5,11 +5,13 @@ import { CompanyAdminComponent } from "./components/admin/company-admin/company-
 import { JobAdminComponent } from "./components/admin/job-admin/job-admin.component";
 import { UserAdminComponent } from "./components/admin/user-admin/user-admin.component";
 import { LoginComponent } from "./components/login/login.component";
+import { RegistrationComponent } from "./components/registration/registration.component";
 import { TasksComponent } from "./components/tasks/tasks.component";
 
 export const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'tasks', component: TasksComponent},
+  { path: 'register', component: RegistrationComponent },
   {
     path: 'admin',
     component: AdminComponent,

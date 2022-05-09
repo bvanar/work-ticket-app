@@ -4,17 +4,18 @@ import { BehaviorSubject, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ApiResponseDto, ApiResponseDtoTyped } from "../dto/api-response.dto";
 import { Company } from "../models/company";
+import { UserService } from "./user.service";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CompanyService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   private url = environment.apiUrl + 'company';
   getCompanies() {
-    var sub = this.http.get<ApiResponseDtoTyped<Company[]>>(this.url);
+    var sub = this.http.get<ApiResponseDtoTyped<Company[]>>(this.url + '/' + this.userService.currentUser?.userId);
     return sub;
   }
 

@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { LabelValuePair } from 'src/app/dto/label-value-pair';
+import { UserJobRequestDto } from 'src/app/dto/user-job-request.dto';
 import { Company } from 'src/app/models/company';
 import { Job } from 'src/app/models/job';
 import { Tasks } from 'src/app/models/tasks';
+import { User } from 'src/app/models/user';
 import { CompanyService } from 'src/app/services/company.service';
 import { JobService } from 'src/app/services/job.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -26,8 +28,12 @@ export class TasksComponent implements OnInit, OnDestroy {
   companies: LabelValuePair[] = [];
   companyList: Company[] = [];
   selectedCompanyId: number = 0;
+  selectedJobId: number = 0;
   taskDialog = false;
   task: Tasks = new Tasks();
+  users: User[] = [];
+  selectedUsers: User[] = [];
+  assignUserDialog: boolean = false;
 
   constructor(private taskService: TaskService,
               private jobService: JobService,
@@ -50,7 +56,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   getJobs() {
-    this.jobService.getUserJobs(this.isAdmin, this.selectedCompanyId);
+    this.jobService.getUserJobs(this.selectedCompanyId);
   }
 
   initSubscriptions() {
@@ -72,6 +78,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.companies = this.companyList.map((company) => {
       return { label: company.companyName, value: company.companyId }
     });
+    console.log(this.companies);
   }
 
   completeTask(task: Tasks) {
@@ -116,6 +123,15 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.job = new Job();
   }
 
+  hideTaskDialog() {
+    this.taskDialog = false;
+    this.task = new Tasks();
+  }
+
+  hideAssignUserDialog() {
+    this.assignUserDialog = false;
+  }
+
   ngOnDestroy(): void {
     this.destructor$.next();
   }
@@ -155,6 +171,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     alert('Job added Successfully');
     this.jobs.push(response.data);
     this.jobDialog = false;
+    this.getJobs();
   }
 
   newJob() {
@@ -209,5 +226,27 @@ export class TasksComponent implements OnInit, OnDestroy {
     } else {
       alert(response.message);
     }
+  }
+
+  async openAssignUsers(job: Job) {
+    this.assignUserDialog = true;
+    this.selectedJobId = job.jobId;
+    let users = await firstValueFrom(this.userService.getAllUsers(this.selectedCompanyId));
+    let selectedUsers = await firstValueFrom(this.userService.getUsersByJob(this.selectedJobId));
+
+    if (users.success && selectedUsers.success) {
+      this.users = users.data;
+      this.users = this.users.filter(z => z.userId !== job.ownerId);
+      this.selectedUsers = selectedUsers.data;
+    }
+  }
+
+  async assignUsers() {
+    let selectedUsers: UserJobRequestDto[] = this.selectedUsers.map((user) => {
+      return new UserJobRequestDto(user.userId, this.selectedJobId);
+    });
+    let resp = await firstValueFrom(await this.jobService.assignUser(selectedUsers));
+    console.log('resp from assign', resp);
+    this.hideAssignUserDialog();
   }
 }

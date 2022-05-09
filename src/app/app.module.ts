@@ -29,10 +29,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {ProgressBarModule} from 'primeng/progressbar';
 import {InputTextModule} from 'primeng/inputtext';
 import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {ListboxModule} from 'primeng/listbox';
 import { AdminComponent } from './components/admin/admin.component';
 import { CompanyAdminComponent } from './components/admin/company-admin/company-admin.component';
 import { JobAdminComponent } from './components/admin/job-admin/job-admin.component';
 import { UserAdminComponent } from './components/admin/user-admin/user-admin.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,8 @@ import { UserAdminComponent } from './components/admin/user-admin/user-admin.com
     AdminComponent,
     CompanyAdminComponent,
     JobAdminComponent,
-    UserAdminComponent
+    UserAdminComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +71,10 @@ import { UserAdminComponent } from './components/admin/user-admin/user-admin.com
     InputTextModule,
     ProgressBarModule,
     CheckboxModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RadioButtonModule,
+    SelectButtonModule,
+    ListboxModule
   ],
   providers: [UserService, TaskService, CompanyService],
   bootstrap: [AppComponent]

@@ -1,0 +1,49 @@
+<div class="login-container">
+  <div class="card">
+  <form>
+    <div class="row mb-4">
+      <h1>Register</h1>
+    </div>
+
+    <div class="form-outline mb-4">
+      <p-selectButton [options]="accountTypes" [(ngModel)]="newUser.accountType" name="accountType" optionLabel="label" optionValue="value"></p-selectButton>
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input pInputText type="email" id="username" class="form-control" required [(ngModel)]="newUser.userName" name="username" />
+      <label class="form-label" for="username">Username</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input pInputText type="password" id="password"  class="form-control" required [(ngModel)]="newUser.password" name="password" />
+      <label class="form-label" for="password">Password</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input pInputText type="password" id="passwordConfirm"  class="form-control" required [(ngModel)]="passwordConfirm" name="passwordConfirm" />
+      <label class="form-label" for="passwordConfirm">Confirm Password</label>
+    </div>
+
+    <div class="form-outline mb-4">
+      <input pInputText type="email" id="email"  class="form-control" required [(ngModel)]="newUser.email" name="email" />
+      <label class="form-label" for="email">Email</label>
+    </div>
+
+    <div class="form-outline mb-4" *ngIf="newUser.accountType == 'enterprise'">
+      <input pInputText type="text" id="team"  class="form-control" name="teamName" [(ngModel)]="newUser.companyName" required />
+      <label class="form-label" for="team">Team Name</label>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col d-flex justify-content-center">
+        <div class="col">
+          <button type="button" class="btn btn-primary btn-block mb-4 w-100"(click)="submit()" >Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
