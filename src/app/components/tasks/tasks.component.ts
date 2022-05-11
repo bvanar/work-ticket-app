@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
+import { CompleteTaskDto } from 'src/app/dto/complete-task.dto';
 import { LabelValuePair } from 'src/app/dto/label-value-pair';
 import { UserJobRequestDto } from 'src/app/dto/user-job-request.dto';
 import { Company } from 'src/app/models/company';
@@ -82,11 +83,13 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   completeTask(task: Tasks) {
-    let response = this.taskService.completeTask(task, task.completed);
+    let completeTaskRequest = new CompleteTaskDto(task.taskId, task.completed, this.userService.currentUser?.userId!);
+    let response = this.taskService.completeTask(completeTaskRequest);
     response.then(resp => {
       if (resp.success) {
         task.completed = resp.data.completed;
         task.completedDate = resp.data.completedDate;
+        task.completedByUserName = resp.data.completedByUserName;
       } else {
         alert(resp.message);
         task.completed = !task.completed;
@@ -112,10 +115,15 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.job = job;
   }
 
-  deleteJob(job: Job) {
+  async deleteJob(job: Job) {
     if (confirm('Are you sure you want to delete the job: ' + job.jobName)) {
-      // delete api call
+      let resp = await firstValueFrom(await this.jobService.deleteJob(job));
+      console.log('resp from delete', resp);
     }
+  }
+
+  isJobOwner(job: Job) {
+    return job.ownerId == this.userService.currentUser?.userId;
   }
 
   hideJobDialog() {
@@ -199,7 +207,6 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   async saveTask() {
-    console.log('current task', this.task);
     if (this.task.taskId == 0) {
       let response = await this.taskService.createTask(this.task);
       if (response.success) {
@@ -248,5 +255,21 @@ export class TasksComponent implements OnInit, OnDestroy {
     let resp = await firstValueFrom(await this.jobService.assignUser(selectedUsers));
     console.log('resp from assign', resp);
     this.hideAssignUserDialog();
+  }
+
+
+  navigate(path: string) {
+    this.router.navigate([path]);
+  }
+
+  showAdmin(): boolean {
+    if (this.jobs) {
+      let jobFound = this.jobs.find(a => a.ownerId == this.userService.currentUser?.userId && a.companyId !== 0);
+      if (jobFound) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

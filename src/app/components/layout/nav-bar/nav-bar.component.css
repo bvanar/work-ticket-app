@@ -5,4 +5,9 @@
 
 .nav-link {
   cursor: pointer;
+  font-weight: bold;
+}
+
+.navbar-brand {
+  font-weight: bold;
 }

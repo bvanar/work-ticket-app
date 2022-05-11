@@ -75,7 +75,7 @@ export class UserService {
     }
 
     newUser(user: RegisterUserDto) {
-      var sub = this.http.post<ApiResponseDto>(environment.apiUrl + 'user', user);
+      var sub = this.http.put<ApiResponseDto>(environment.apiUrl + 'user', user);
       return sub;
     }
 

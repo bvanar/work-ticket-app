@@ -2,13 +2,16 @@
 
   <div class="company-selector">
     <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" (ngModelChange)="getJobs()" [appendTo]="'body'" ></p-dropdown>
+    <button *ngIf="showAdmin()" type="button" pButton pRipple class="p-button-primary admin-button" (click)="navigate('admin')">Admin</button>
   </div>
   <p-table [value]="jobs" dataKey="jobId" rowGroupMode="subheader" groupRowsBy="jobId" responsiveLayout="scroll">
     <ng-template pTemplate="header">
         <tr>
+            <th></th>
             <th>Completed</th>
             <th>Task</th>
             <th>Completed Date</th>
+            <th>Completed By</th>
             <th>
               <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2" [icon]="'pi pi-plus'" (click)="newJob()"></button>
             </th>
@@ -16,14 +19,14 @@
     </ng-template>
     <ng-template pTemplate="groupheader" let-job let-rowIndex="rowIndex" let-expanded="expanded">
         <tr class="job-row">
-            <td colspan="3">
+            <td colspan="5" style="vertical-align: middle;">
                 <button type="button" pButton pRipple [pRowToggler]="job" class="p-button-text p-button-rounded p-button-plain mr-2" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-                <span class="font-bold ml-2">{{job.jobName}}</span>
+                <span class="job-name">{{job.jobName}}</span>
             </td>
             <td colspan="1">
-              <button type="button"  pButton pRipple class="p-button-text p-button-rounded p-button-primary mr-2" [icon]="'pi pi-pencil'" [pTooltip]="'Edit Job'" (click)="editJob(job)"></button>
-              <button *ngIf="job.companyId !== 0" type="button" pButton pRipple class="p-button-text p-button-rounded p-button-warning mr-2" [icon]="'pi pi-user'" [pTooltip]="'Assign Users'" (click)="openAssignUsers(job)"></button>
-              <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-danger mr-2" [icon]="'pi pi-trash'" [pTooltip]="'Delete Job'" (click)="deleteJob(job)"></button>
+              <button type="button" *ngIf="isJobOwner(job)" pButton pRipple class="p-button-text p-button-rounded p-button-primary mr-2" [icon]="'pi pi-pencil'" [pTooltip]="'Edit Job'" (click)="editJob(job)"></button>
+              <button *ngIf="job.companyId !== 0 && isJobOwner(job)" type="button" pButton pRipple class="p-button-text p-button-rounded p-button-warning mr-2" [icon]="'pi pi-user'" [pTooltip]="'Assign Users'" (click)="openAssignUsers(job)"></button>
+              <button type="button" *ngIf="isJobOwner(job)" pButton pRipple class="p-button-text p-button-rounded p-button-danger mr-2" [icon]="'pi pi-trash'" [pTooltip]="'Delete Job'" (click)="deleteJob(job)"></button>
             </td>
         </tr>
     </ng-template>
@@ -32,7 +35,8 @@
             <td>
               <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2" [icon]="'pi pi-plus'" [pTooltip]="'New Task'" (click)="newTask(job.jobId)"></button>
             </td>
-            <td colspan="2" style="text-align: right">Completed Tasks</td>
+            <td></td>
+            <td colspan="3" style="text-align: right">Completed Tasks</td>
             <td>
               {{calculateCompletedTasks(job.tasks)}}
             </td>
@@ -40,6 +44,7 @@
     </ng-template>
     <ng-template pTemplate="rowexpansion" let-job>
         <tr *ngFor="let task of job.tasks">
+            <td></td>
             <td>
               <p-checkbox [(ngModel)]="task.completed" [binary]="true" (click)="completeTask(task)"></p-checkbox>
             </td>
@@ -49,6 +54,9 @@
             <td>
                 {{task.completedDate | date}}
             </td>
+            <td>
+              {{task.completedByUserName ? task.completedByUserName : ''}}
+            </td>
             <td></td>
         </tr>
     </ng-template>
@@ -57,7 +65,7 @@
 
 <p-dialog [(visible)]="jobDialog" [style]="{width: '450px'}" header="Job Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-      <div class="field">
+      <div class="field mb-3">
           <label for="name">Job Name</label>
           <input type="text" pInputText id="name" [(ngModel)]="job.jobName" required autofocus />
           <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
@@ -90,11 +98,11 @@
 
   <ng-template pTemplate="footer">
       <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideTaskDialog()"></button>
-      <button pButton pRipple label="Create" icon="pi pi-check" class="p-button-text" (click)="saveTask()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTask()"></button>
   </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="taskDialog" [style]="{width: '450px'}" header="Task Details" [modal]="true" styleClass="p-fluid">
+<!-- <p-dialog [(visible)]="taskDialog" [style]="{width: '450px'}" header="Task Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
       <div class="field">
 
@@ -105,7 +113,7 @@
       <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideTaskDialog()"></button>
       <button pButton pRipple label="Create" icon="pi pi-check" class="p-button-text" (click)="saveTask()"></button>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-dialog [(visible)]="assignUserDialog" [style]="{width: '450px'}" header="Assign Users" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">

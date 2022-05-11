@@ -36,9 +36,9 @@ body {
 }
 
 .p-inputtext {
-  border: 1px solid #3f4b5b;
-  background: #20262e;
-  color: white;
+  border: 1px solid #3f4b5b !important;
+  background: #20262e !important;
+  color: white !important;
 }
 
 .p-dialog .p-dialog-content {
@@ -66,7 +66,8 @@ body {
 .p-dropdown {
   background: #20262e;
   border: 1px solid #3f4b5b;
-  transition: background-color 0.15s
+  transition: background-color 0.15s;
+  width: 30%;
 }
 
 .p-dropdown-panel {
@@ -77,9 +78,41 @@ body {
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   border: 0 none;
   color: rgba(255, 255, 255, 0.87);
-  background: transparent;
+}
+
+.p-dropdown-label.p-inputtext {
+  background: #2a323d !important;
+  border: none !important;
+}
+
+.p-dropdown-trigger {
+  background: #2a323d !important;
 }
 
 .p-checkbox .p-checkbox-box {
   background: transparent;
 }
+
+.p-ripple {
+  background-color: #2a323d !important;
+  border-color: white !important;
+  color: white !important;
+}
+
+.p-ripple.p-highlight {
+  background-color: #0d89ec !important;
+  color: white !important;
+}
+
+.p-listbox {
+  background: #2a323d;
+  border: none;
+}
+
+.p-listbox-header {
+  background: #2a323d !important;
+}
+
+/* .form-control {
+  background-color: transparent !important;
+} */

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, firstValueFrom } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ApiResponseDto, ApiResponseDtoTyped } from "../dto/api-response.dto";
+import { CompleteTaskDto } from "../dto/complete-task.dto";
 import { Tasks } from "../models/tasks";
 
 @Injectable({
@@ -15,8 +16,8 @@ export class TaskService {
 
   baseUrl = environment.apiUrl + 'task';
 
-  async completeTask(task: Tasks, isComplete: boolean) : Promise<ApiResponseDtoTyped<Tasks>> {
-    var sub = this.http.patch<ApiResponseDto>(this.baseUrl + '/complete/' + task.taskId + '/' + isComplete, {});
+  async completeTask(task: CompleteTaskDto) : Promise<ApiResponseDtoTyped<Tasks>> {
+    var sub = this.http.patch<ApiResponseDto>(this.baseUrl + '/complete', task);
     return await firstValueFrom(sub);
   }
 

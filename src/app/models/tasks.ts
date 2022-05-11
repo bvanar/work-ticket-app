@@ -6,4 +6,5 @@ export class Tasks {
   completed: boolean = false;
   completedDate?: string;
   isDeleted: boolean = false;
+  completedByUserName: string = '';
 }

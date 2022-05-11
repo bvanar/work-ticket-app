@@ -23,3 +23,12 @@ h5 {
   border-top: 1px solid #3f4b5b;
 }
 
+.job-name {
+  margin-left: 2rem;
+  font-weight: bold;
+}
+
+.admin-button {
+  float: right;
+}
+

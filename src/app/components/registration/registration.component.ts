@@ -12,7 +12,7 @@ export class RegistrationComponent implements OnInit {
 
   newUser = new RegisterUserDto();
   passwordConfirm: string = '';
-  accountTypes = [{label: 'Personal', value: 'personal'}, {label: 'Enterprise', value: 'enterprise'}]
+  accountTypes = [{label: 'Personal', value: 'personal'}, {label: 'Team', value: 'team'}]
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -35,16 +35,31 @@ export class RegistrationComponent implements OnInit {
   }
 
   validate() {
-    if (this.newUser.userName == '' ||
-        this.newUser.password == '' ||
-        this.newUser.email == '' ||
-        (this.newUser.accountType == 'enterprise' && this.newUser.companyName == '')
+    console.log(this.newUser);
+    if (this.newUser.userName == undefined ||
+        this.newUser.password == undefined ||
+        this.newUser.email == undefined ||
+        (this.newUser.accountType == 'team' && this.newUser.companyName == undefined)
     ) {
-      if (this.newUser.password !== this.passwordConfirm) {
-        alert('Passwords do not match');
-        return false;
-      }
       alert('invalid');
+      return false;
+    }
+
+    if (this.newUser.password !== this.passwordConfirm) {
+      alert('Passwords do not match');
+      return false;
+    }
+
+    // password must contain 8 char/number/symbol
+    let validPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+    if (!this.newUser.password.match(validPassword)) {
+      alert('Password must contain an Uppercase/Lowercase/Number/Symbol');
+      return false;
+    }
+
+    let validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!this.newUser.email.match(validEmail)) {
+      alert('Please enter a valid email');
       return false;
     }
     return true;
