@@ -37,6 +37,7 @@ import { CompanyAdminComponent } from './components/admin/company-admin/company-
 import { JobAdminComponent } from './components/admin/job-admin/job-admin.component';
 import { UserAdminComponent } from './components/admin/user-admin/user-admin.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { RegistrationComponent } from './components/registration/registration.co
     BrowserAnimationsModule,
     RadioButtonModule,
     SelectButtonModule,
-    ListboxModule
+    ListboxModule,
+    ProgressSpinnerModule
   ],
   providers: [UserService, TaskService, CompanyService],
   bootstrap: [AppComponent]

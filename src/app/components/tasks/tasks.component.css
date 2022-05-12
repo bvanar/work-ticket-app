@@ -32,3 +32,8 @@ h5 {
   float: right;
 }
 
+.empty-message {
+  color: white;
+  font-size: small;
+}
+

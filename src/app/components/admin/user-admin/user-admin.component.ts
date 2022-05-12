@@ -5,6 +5,7 @@ import { LabelValuePair } from 'src/app/dto/label-value-pair';
 import { Company } from 'src/app/models/company';
 import { User } from 'src/app/models/user';
 import { CompanyService } from 'src/app/services/company.service';
+import { JobService } from 'src/app/services/job.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class UserAdminComponent implements OnInit {
   clonedUsers: { [s: string]: User; } = {};
 
   constructor(private userService: UserService,
-              private companyService: CompanyService) { }
+              private companyService: CompanyService,
+              private jobService: JobService) { }
 
   async ngOnInit() {
     this.loading = true;
@@ -36,8 +38,6 @@ export class UserAdminComponent implements OnInit {
     this.companies = this.companyList.map((company) => {
       return { label: company.companyName, value: company.companyId }
     });
-
-    this.loading = false;
   }
 
   editUser(user: User) {
@@ -47,15 +47,17 @@ export class UserAdminComponent implements OnInit {
 
   async getUsers() {
     this.userList = (await firstValueFrom(this.userService.getAllUsers(this.selectedCompanyId))).data;
+    this.userList = this.userList.filter(z => z.userId !== this.userService.currentUser?.userId);
+    this.loading = false;
   }
 
   async deleteUser(user: User) {
     // remove the user from the company
     user.isDeleted = true;
-    if (!confirm('Are you sure you want to delete this user?')) {
+    if (!confirm('Are you sure you want to remove this user from your company?')) {
       return;
     }
-    let response = await firstValueFrom(this.userService.updateUser(user));
+    let response = await firstValueFrom(this.companyService.removeUser(user.userId, this.selectedCompanyId));
     if (response.success) {
       this.userList = this.userList.filter(u => u.userId !== user.userId);
     } else {
@@ -64,6 +66,9 @@ export class UserAdminComponent implements OnInit {
   }
 
   async inviteUser() {
+    if (!await this.validateEmail(this.inviteRequest.email)) {
+      alert("Invalid Email");
+    }
     this.inviteRequest.companyId = this.selectedCompanyId;
     let resp = (await firstValueFrom(this.userService.inviteUser(this.inviteRequest)));
     if (resp.success) {
@@ -72,6 +77,15 @@ export class UserAdminComponent implements OnInit {
     } else {
       alert(resp.message);
     }
+  }
+
+  async validateEmail(email: string) {
+    let validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!email.match(validEmail)) {
+      alert('Please enter a valid email');
+      return false;
+    }
+    return true;
   }
 
   // async saveUser(user: User) {

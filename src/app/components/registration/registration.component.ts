@@ -50,6 +50,14 @@ export class RegistrationComponent implements OnInit {
       return false;
     }
 
+    // valid username
+    let validUsername = this.newUser.userName.indexOf(' ') >= 0;
+    console.log(validUsername);
+    if (validUsername) {
+      alert('Username cant contain whitespace');
+      return false;
+    }
+
     // password must contain 8 char/number/symbol
     let validPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
     if (!this.newUser.password.match(validPassword)) {

@@ -33,4 +33,9 @@ export class CompanyService {
     var sub = this.http.delete<ApiResponseDto>(this.url);
     return sub;
   }
+
+  removeUser(userId: number, companyId: number) {
+    var sub = this.http.delete<ApiResponseDto>(this.url + `/${companyId}/user/${userId}`);
+    return sub;
+  }
 }

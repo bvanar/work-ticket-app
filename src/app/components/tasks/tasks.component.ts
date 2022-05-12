@@ -50,8 +50,8 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.isAdmin = this.userService.currentUser?.isAdmin!;
 
     this.initSubscriptions();
-    this.getJobs();
     this.loading = true;
+    this.getJobs();
 
     await this.getCompanies();
   }
@@ -179,6 +179,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     alert('Job added Successfully');
     this.jobs.push(response.data);
     this.jobDialog = false;
+    this.loading = true;
     this.getJobs();
   }
 
@@ -188,7 +189,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   validateJob(job: Job) {
-    if (job.jobName == '') {
+    if (job?.jobName == '' || job?.jobName == null) {
       alert('Job Name must be filled in');
       return false;
     }
@@ -207,6 +208,11 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   async saveTask() {
+    if (this.task?.taskName == null || this.task?.taskName == '') {
+      alert('Task name cant be empty');
+      return;
+    }
+
     if (this.task.taskId == 0) {
       let response = await this.taskService.createTask(this.task);
       if (response.success) {
@@ -269,6 +275,15 @@ export class TasksComponent implements OnInit, OnDestroy {
         return true;
       }
     }
+
+    return false;
+  }
+
+  companyOwner() {
+    if(this.selectedCompanyId == 0) return true;
+
+    let companyOwnerId = this.companyList.find(z => z.companyId == this.selectedCompanyId)?.ownerId;
+    if (companyOwnerId == this.userService.currentUser?.userId) return true;
 
     return false;
   }

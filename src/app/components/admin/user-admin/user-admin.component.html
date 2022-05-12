@@ -2,33 +2,32 @@
   <div class="company-selector">
     <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" (ngModelChange)="getUsers()" [appendTo]="'body'" ></p-dropdown>
   </div>
-  <p-table [value]="userList" dataKey="userId" responsiveLayout="scroll">
+  <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '10px'}"></p-progressBar>
+  <p-table *ngIf="!loading" [value]="userList" dataKey="userId" responsiveLayout="scroll">
       <ng-template pTemplate="header">
           <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Company</th>
-              <th>Is Admin</th>
-              <th>
+              <th></th>
+              <th style="width: 30%">Username</th>
+              <th style="width: 30%">Email</th>
+              <th style="width: 20%">Is Admin</th>
+              <th style="width: 20%">
                 <button pButton (click)="openDialog()" pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success" [pTooltip]="'Invite User'"></button>
               </th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
           <tr>
+              <td></td>
               <td>
                 {{user.userName == '' ? 'Pending Invite' : user.userName}}
               </td>
               <td>{{user.email}}</td>
               <td>
-                <p-dropdown [options]="companies" [(ngModel)]="user.companyId" [disabled]="true" [style]="{'width':'100%'}"></p-dropdown>
+                <p-checkbox [(ngModel)]="user.isAdmin" [binary]="true"></p-checkbox>
               </td>
               <td>
-                <p-checkbox [(ngModel)]="user.isAdmin" [binary]="true" [disabled]="true"></p-checkbox>
-              </td>
-              <td>
-                <button pButton (click)="editUser(user)" pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-info" [pTooltip]="'Edit'"></button>
-                <button pButton (click)="deleteUser(user)" pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-danger" [pTooltip]="'Delete'"></button>
+                <!-- <button pButton (click)="editUser(user)" pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-info" [pTooltip]="'Edit'"></button> -->
+                <button pButton (click)="deleteUser(user)" pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-danger" [pTooltip]="'Remove User'"></button>
               </td>
           </tr>
       </ng-template>

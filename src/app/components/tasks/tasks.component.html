@@ -4,16 +4,17 @@
     <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" (ngModelChange)="getJobs()" [appendTo]="'body'" ></p-dropdown>
     <button *ngIf="showAdmin()" type="button" pButton pRipple class="p-button-primary admin-button" (click)="navigate('admin')">Admin</button>
   </div>
-  <p-table [value]="jobs" dataKey="jobId" rowGroupMode="subheader" groupRowsBy="jobId" responsiveLayout="scroll">
+  <p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '10px'}"></p-progressBar>
+  <p-table *ngIf="!loading"  [value]="jobs" dataKey="jobId" rowGroupMode="subheader" groupRowsBy="jobId" responsiveLayout="scroll">
     <ng-template pTemplate="header">
         <tr>
-            <th></th>
-            <th>Completed</th>
-            <th>Task</th>
-            <th>Completed Date</th>
-            <th>Completed By</th>
+            <th style="width: 70px"></th>
+            <th style="width: 20%">Completed</th>
+            <th style="width: 20%">Task</th>
+            <th style="width: 20%">Completed Date</th>
+            <th style="width: 20%">Completed By</th>
             <th>
-              <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2" [icon]="'pi pi-plus'" (click)="newJob()"></button>
+              <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2" *ngIf="companyOwner()" [icon]="'pi pi-plus'" (click)="newJob()"></button>
             </th>
         </tr>
     </ng-template>
@@ -32,7 +33,7 @@
     </ng-template>
     <ng-template pTemplate="groupfooter" let-job>
         <tr class="p-rowgroup-footer">
-            <td>
+            <td style="width: 70px">
               <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2" [icon]="'pi pi-plus'" [pTooltip]="'New Task'" (click)="newTask(job.jobId)"></button>
             </td>
             <td></td>
@@ -60,19 +61,27 @@
             <td></td>
         </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage" let-job>
+      <tr>
+          <td></td>
+          <td colspan="5" class="empty-message">
+              No Jobs created
+          </td>
+      </tr>
+  </ng-template>
   </p-table>
 </div>
 
 <p-dialog [(visible)]="jobDialog" [style]="{width: '450px'}" header="Job Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-      <div class="field mb-3">
+      <div class="field mb-3 mt-4">
           <label for="name">Job Name</label>
           <input type="text" pInputText id="name" [(ngModel)]="job.jobName" required autofocus />
           <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
       </div>
       <div class="field">
-        <label for="inventoryStatus">Company</label>
-        <p-dropdown [options]="companies" [(ngModel)]="job.companyId" [appendTo]="'body'" [style]="{'width':'100%'}"></p-dropdown>
+        <!-- <label for="inventoryStatus">Company</label> -->
+        <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" [appendTo]="'body'" [style]="{'width':'100%'}" [disabled]="true"></p-dropdown>
     </div>
   </ng-template>
 
@@ -85,15 +94,15 @@
 
 <p-dialog [(visible)]="taskDialog" [style]="{width: '450px'}" header="Task Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-      <div class="field">
-          <label for="name">Task Name</label>
-          <input type="text" pInputText id="name" [(ngModel)]="task.taskName" required autofocus />
-          <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
-      </div>
-      <div class="field">
-        <label for="order">Order</label>
-        <input type="number" pInputText id="order" [(ngModel)]="task.taskOrder" required autofocus />
+    <div class="field mt-2">
+        <label for="name">Task Name</label>
+        <input type="text" pInputText id="name" [(ngModel)]="task.taskName" required autofocus />
+        <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
     </div>
+    <!-- <div class="field">
+      <label for="order">Order</label>
+      <input type="number" pInputText id="order" [(ngModel)]="task.taskOrder" required autofocus />
+    </div> -->
   </ng-template>
 
   <ng-template pTemplate="footer">
@@ -117,7 +126,11 @@
 
 <p-dialog [(visible)]="assignUserDialog" [style]="{width: '450px'}" header="Assign Users" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <p-listbox [options]="users" [(ngModel)]="selectedUsers" [metaKeySelection]="false" [checkbox]="true" [multiple]="true" optionLabel="email"></p-listbox>
+    <p-listbox [options]="users" [(ngModel)]="selectedUsers" [metaKeySelection]="false" [checkbox]="true" [multiple]="true" optionLabel="userName">
+      <ng-template let-user pTemplate="item">
+        <div>{{user.userName + ' - ' + user.email}}</div>
+      </ng-template>
+    </p-listbox>
   </ng-template>
 
   <ng-template pTemplate="footer">

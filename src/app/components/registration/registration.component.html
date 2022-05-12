@@ -32,7 +32,7 @@
       <label class="form-label" for="email">Email</label>
     </div>
 
-    <div class="form-outline mb-4" *ngIf="newUser.accountType == 'enterprise'">
+    <div class="form-outline mb-4" *ngIf="newUser.accountType == 'team'">
       <input pInputText type="text" id="team"  class="form-control" name="teamName" [(ngModel)]="newUser.companyName" required />
       <label class="form-label" for="team">Team Name</label>
     </div>
