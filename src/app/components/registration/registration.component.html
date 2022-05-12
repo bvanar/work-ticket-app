@@ -5,6 +5,7 @@
       <h1>Register</h1>
     </div>
 
+    <p-progressBar *ngIf="submitting" mode="indeterminate" [style]="{'height': '10px'}"></p-progressBar>
     <div class="form-outline mb-4">
       <p-selectButton [options]="accountTypes" [(ngModel)]="newUser.accountType" name="accountType" optionLabel="label" optionValue="value"></p-selectButton>
     </div>
@@ -40,7 +41,7 @@
     <div class="row mb-4">
       <div class="col d-flex justify-content-center">
         <div class="col">
-          <button type="button" class="btn btn-primary btn-block mb-4 w-100"(click)="submit()" >Submit</button>
+          <button type="button" class="btn btn-primary btn-block mb-4 w-100"(click)="submit()" [disabled]="submitting" >Submit</button>
         </div>
       </div>
     </div>

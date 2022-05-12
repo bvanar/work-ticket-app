@@ -1,6 +1,8 @@
 <div class="card">
   <div class="company-selector">
     <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" (ngModelChange)="getUsers()" [appendTo]="'body'" ></p-dropdown>
+  </div>
+  <div class="buttons">
     <button pButton (click)="openDialog()" pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success invite-user" [pTooltip]="'Invite User'"></button>
   </div>
   <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '10px'}"></p-progressBar>

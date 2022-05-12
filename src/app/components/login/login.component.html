@@ -4,6 +4,7 @@
     <div class="row mb-4">
       <h1>Login</h1>
     </div>
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '10px'}"></p-progressBar>
     <!-- Email input -->
     <div class="form-outline mb-4">
       <input pInputText type="text" id="username" class="form-control" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" />
@@ -19,7 +20,7 @@
     <div class="row mb-4">
       <div class="col d-flex justify-content-center">
         <div class="col">
-          <button type="button" class="btn btn-primary form-control btn-block mb-4" (click)="login()">Sign in</button>
+          <button type="button" class="btn btn-primary form-control btn-block mb-4" (click)="login()" [disabled]="loading">Sign in</button>
         </div>
         <div class="form-check">
           <!-- <input class="form-check-input" type="checkbox" value="" id="remember-me" checked /> -->
@@ -36,7 +37,7 @@
     <div class="row d-flex justify-content-center">
       <h6>New User? Register Here</h6>
       <div class="col">
-        <button type="button" class="btn btn-primary form-control btn-block mb-4" (click)="register()">Register</button>
+        <button type="button" class="btn btn-primary form-control btn-block mb-4" (click)="register()" [disabled]="loading">Register</button>
       </div>
     </div>
   </form>

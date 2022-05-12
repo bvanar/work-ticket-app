@@ -12,7 +12,8 @@ export class RegistrationComponent implements OnInit {
 
   newUser = new RegisterUserDto();
   passwordConfirm: string = '';
-  accountTypes = [{label: 'Personal', value: 'personal'}, {label: 'Team', value: 'team'}]
+  accountTypes = [{label: 'Personal', value: 'personal'}, {label: 'Team', value: 'team'}];
+  submitting = false;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -22,8 +23,10 @@ export class RegistrationComponent implements OnInit {
 
   submit() {
     if (this.validate()) {
+      this.submitting = true;
       let sub = this.userService.newUser(this.newUser);
       sub.subscribe(resp => {
+        this.submitting = false;
         if (resp.success) {
           this.router.navigate(['']);
         }

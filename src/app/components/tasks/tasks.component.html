@@ -2,7 +2,10 @@
 
   <div class="company-selector">
     <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" (ngModelChange)="getJobs()" [appendTo]="'body'" ></p-dropdown>
-    <button *ngIf="showAdmin()" type="button" pButton pRipple class="p-button-primary admin-button" (click)="navigate('admin')">Admin</button>
+  </div>
+  <div class="buttons">
+    <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2 add-job-button" *ngIf="companyOwner()" [icon]="'pi pi-plus'" (click)="newJob()"></button>
+    <button *ngIf="showAdmin()" type="button" pButton pRipple class="p-button-primary p-button-text admin-button" (click)="navigate('admin')">Admin</button>
   </div>
   <p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '10px'}"></p-progressBar>
   <p-table *ngIf="!loading"  [value]="jobs" dataKey="jobId" rowGroupMode="subheader" groupRowsBy="jobId" responsiveLayout="stack">

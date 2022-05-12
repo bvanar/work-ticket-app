@@ -55,7 +55,10 @@ h5 {
 
   .admin-button {
     float: right;
-    margin-top: 2rem;
+  }
+
+  .add-job-button {
+    margin-right: 0rem;
   }
 }
 
@@ -72,7 +75,7 @@ h5 {
     margin-bottom: 2rem;
   }
 
-  .admin-button {
-    float: right;
+  .add-job-button {
+    display: none;
   }
 }
