@@ -5,12 +5,12 @@
     <button *ngIf="showAdmin()" type="button" pButton pRipple class="p-button-primary admin-button" (click)="navigate('admin')">Admin</button>
   </div>
   <p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '10px'}"></p-progressBar>
-  <p-table *ngIf="!loading"  [value]="jobs" dataKey="jobId" rowGroupMode="subheader" groupRowsBy="jobId" responsiveLayout="scroll">
-    <ng-template pTemplate="header">
+  <p-table *ngIf="!loading"  [value]="jobs" dataKey="jobId" rowGroupMode="subheader" groupRowsBy="jobId" responsiveLayout="stack">
+    <ng-template pTemplate="header" let-columns>
         <tr>
             <th style="width: 70px"></th>
-            <th style="width: 20%">Completed</th>
-            <th style="width: 20%">Task</th>
+            <th style="width: 10%">Completed</th>
+            <th style="width: 30%">Task</th>
             <th style="width: 20%">Completed Date</th>
             <th style="width: 20%">Completed By</th>
             <th>
@@ -31,7 +31,7 @@
             </td>
         </tr>
     </ng-template>
-    <ng-template pTemplate="groupfooter" let-job>
+    <ng-template pTemplate="groupfooter" let-job let-columns="columns">
         <tr class="p-rowgroup-footer">
             <td style="width: 70px">
               <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-success mr-2" [icon]="'pi pi-plus'" [pTooltip]="'New Task'" (click)="newTask(job.jobId)"></button>
@@ -47,16 +47,16 @@
         <tr *ngFor="let task of job.tasks">
             <td></td>
             <td>
-              <p-checkbox [(ngModel)]="task.completed" [binary]="true" (click)="completeTask(task)"></p-checkbox>
+              <span class="p-column-title">Completed</span><p-checkbox [(ngModel)]="task.completed" [binary]="true" (click)="completeTask(task)"></p-checkbox>
             </td>
             <td>
-                {{task.taskName}}
+              <span class="p-column-title">Task</span>{{task.taskName}}
             </td>
             <td>
-                {{task.completedDate | date}}
+              <span class="p-column-title">Completed Date</span>{{task.completedDate | date}}
             </td>
             <td>
-              {{task.completedByUserName ? task.completedByUserName : ''}}
+              <span class="p-column-title">Completed By</span>{{task.completedByUserName ? task.completedByUserName : ''}}
             </td>
             <td></td>
         </tr>

@@ -1,10 +1,4 @@
-.card {
-  margin-top: 3rem;
-  width: 80%;
-  margin: 3rem auto auto auto;
-  border: none;
-  background-color: transparent;
-}
+
 
 h5 {
   margin-bottom: 2rem;
@@ -12,11 +6,6 @@ h5 {
 
 .content .header {
   background-color: lightgray;
-}
-
-
-.company-selector {
-  margin-bottom: 2rem;
 }
 
 .job-row {
@@ -37,3 +26,53 @@ h5 {
   font-size: small;
 }
 
+:host ::ng-deep .p-column-title {
+  font-weight: bold;
+}
+
+@media(max-width: 700px) {
+  .card {
+    margin-top: 3rem;
+    margin-bottom: 3rem!important;
+    width: 100%;
+    /* margin: 3rem auto auto auto; */
+    border: none;
+    background-color: transparent;
+  }
+
+  .company-selector {
+    margin-bottom: 2rem;
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .p-dropdown {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .p-table {
+    table-layout: auto;
+  }
+
+  .admin-button {
+    float: right;
+    margin-top: 2rem;
+  }
+}
+
+@media(min-width: 700px) {
+  .card {
+    margin-top: 3rem;
+    width: 80%;
+    margin: 3rem auto auto auto;
+    border: none;
+    background-color: transparent;
+  }
+
+  .company-selector {
+    margin-bottom: 2rem;
+  }
+
+  .admin-button {
+    float: right;
+  }
+}

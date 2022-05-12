@@ -1,10 +1,11 @@
 <div class="card">
   <div class="company-selector">
     <p-dropdown [options]="companies" [(ngModel)]="selectedCompanyId" (ngModelChange)="getUsers()" [appendTo]="'body'" ></p-dropdown>
+    <button pButton (click)="openDialog()" pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success invite-user" [pTooltip]="'Invite User'"></button>
   </div>
   <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '10px'}"></p-progressBar>
-  <p-table *ngIf="!loading" [value]="userList" dataKey="userId" responsiveLayout="scroll">
-      <ng-template pTemplate="header">
+  <p-table *ngIf="!loading" [value]="userList" dataKey="userId" responsiveLayout="stack">
+      <ng-template pTemplate="header" let-columns>
           <tr>
               <th></th>
               <th style="width: 30%">Username</th>
@@ -15,14 +16,17 @@
               </th>
           </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
+      <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex" let-columns="columns">
           <tr>
               <td></td>
               <td>
-                {{user.userName == '' ? 'Pending Invite' : user.userName}}
+                <span class="p-column-title">Username</span>{{user.userName == '' ? 'Pending Invite' : user.userName}}
               </td>
-              <td>{{user.email}}</td>
               <td>
+                <span class="p-column-title">Email</span>{{user.email}}
+              </td>
+              <td>
+                <span class="p-column-title">Is Admin</span>
                 <p-checkbox [(ngModel)]="user.isAdmin" [binary]="true"></p-checkbox>
               </td>
               <td>
@@ -34,7 +38,7 @@
   </p-table>
 </div>
 
-<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Invite to Team" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
       <div class="field">
           <label for="name">Email</label>
@@ -45,6 +49,6 @@
 
   <ng-template pTemplate="footer">
       <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="inviteUser()"></button>
+      <button pButton pRipple label="Send" icon="pi pi-check" class="p-button-text" (click)="inviteUser()"></button>
   </ng-template>
 </p-dialog>

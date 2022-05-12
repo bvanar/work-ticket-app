@@ -1,15 +1,60 @@
-.card {
-  margin-top: 3rem;
-  width: 80%;
-  margin: 3rem auto auto auto;
-  border: none;
-  background-color: transparent;
+@media(max-width: 700px) {
+  .card {
+    margin-top: 3rem;
+    margin-bottom: 3rem!important;
+    width: 100%;
+    /* margin: 3rem auto auto auto; */
+    border: none;
+    background-color: transparent;
+  }
+
+  .company-selector {
+    margin-bottom: 2rem;
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .p-dropdown {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .p-table {
+    table-layout: auto;
+  }
+
+  .field {
+    margin-top: 1rem;
+  }
+
+  :host ::ng-deep .p-column-title {
+    font-weight: bold;
+  }
 }
 
-.field {
-  margin-top: 1rem;
+@media(min-width: 700px) {
+  .card {
+    margin-top: 3rem;
+    width: 80%;
+    margin: 3rem auto auto auto;
+    border: none;
+    background-color: transparent;
+  }
+
+  .company-selector {
+    margin-bottom: 2rem;
+  }
+
+  .field {
+    margin-top: 1rem;
+  }
 }
 
-.company-selector {
-  margin-bottom: 2rem;
+
+@media(max-width: 960px) {
+
+}
+
+@media(min-width: 960px) {
+  .invite-user {
+    display: none !important;
+  }
 }
