@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
             this.loading = false;
             this.router.navigate(['tasks']);
           } else {
+            this.loading = false;
             alert(x.message);
           }
         });

@@ -32,8 +32,9 @@ export class RegistrationComponent implements OnInit {
         }
         else {
           alert(resp.message);
+          this.submitting = false;
         }
-      })
+      });
     }
   }
 

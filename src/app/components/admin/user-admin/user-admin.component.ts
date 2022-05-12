@@ -66,9 +66,9 @@ export class UserAdminComponent implements OnInit {
   }
 
   async inviteUser() {
-    if (!await this.validateEmail(this.inviteRequest.email)) {
-      alert("Invalid Email");
-    }
+    // if (!await this.validateEmail(this.inviteRequest.email)) {
+    //   return;
+    // }
     this.inviteRequest.companyId = this.selectedCompanyId;
     let resp = (await firstValueFrom(this.userService.inviteUser(this.inviteRequest)));
     if (resp.success) {

@@ -169,7 +169,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     if (!this.validateJob(job)) {
       return;
     }
-
+    job.companyId = this.selectedCompanyId;
     let response = await firstValueFrom(await this.jobService.createJob(job));
     if (!response.success) {
       alert('Error creating the job: ' + response.message);

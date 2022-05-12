@@ -34,7 +34,7 @@ export class JobService {
   }
 
   async createJob(job: Job) {
-    job.ownerId = this.userService.currentUser?.userId!;
+    job.ownerId = this.userService.currentUser?.userId;
     console.log(job);
     var sub = this.http.post<ApiResponseDtoTyped<Job>>(this.baseUrl, job);
     return sub;
